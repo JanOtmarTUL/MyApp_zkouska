@@ -1,0 +1,131 @@
+package com.example.myapp_zkouska
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
+import android.widget.Toast
+import com.example.myapp_zkouska.databinding.ActivityAddCarBinding
+import com.google.android.material.snackbar.Snackbar
+
+class AddCar : AppCompatActivity() {
+
+    private lateinit var binding: ActivityAddCarBinding
+    private lateinit var db: CarDatabaseHelper
+    private lateinit var dateEditStk: EditText
+    private lateinit var dateEditReminder: EditText
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAddCarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val editText = findViewById<EditText>(R.id.etSPZ)
+
+        editText.inputType = android.text.InputType.TYPE_CLASS_TEXT or
+                android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                //toto není potřeba implementovat
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                //toto není potřeba implementovat
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                // při zadávání SPZ převádí automaticky malá písma na velká
+                editable?.let {
+                    val upperCaseText = it.toString().uppercase()
+                    if (it.toString() != upperCaseText) {
+                        editText.setText(upperCaseText)
+                        editText.setSelection(upperCaseText.length)
+                    }
+                }
+            }
+        })
+
+        dateEditStk = findViewById(R.id.etDateSTK)
+
+        dateEditStk.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //toto není potřeba implementovat
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //toto není potřeba implementovat
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Po změně textu
+                if (s != null) {
+                    // Omezte délku textu na 10 znaků
+                    if (s.length > 10) {
+                        s.delete(10, s.length)
+                    }
+
+                    // Přidáme tečku po dvou zadaných znacích (např. DD.)
+                    if (s.length == 2 && s[1] != '.') {
+                        s.insert(2, ".")
+                    }
+                    // Přidáme tečku po pěti zadaných znacích (např. DD.MM.)
+                    else if (s.length == 5 && s[4] != '.') {
+                        s.insert(5, ".")
+                    }
+                }
+            }
+        })
+
+        dateEditReminder = findViewById(R.id.etDateReminder)
+
+        dateEditReminder.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //toto není potřeba implementovat
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // //toto není potřeba implementovat
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+                if (s != null) {
+
+                    if (s.length > 10) {
+                        s.delete(10, s.length)
+                    }
+
+                    if (s.length == 2 && s[1] != '.') {
+                        s.insert(2, ".")
+                    }
+                    else if (s.length == 5 && s[4] != '.') {
+                        s.insert(5, ".")
+                    }
+                }
+            }
+        })
+
+        db = CarDatabaseHelper(this)
+
+        binding.btnSaveCar.setOnClickListener {
+            val nazev = binding.etName.text.toString()
+            val spz = binding.etSPZ.text.toString()
+            val dateStk = binding.etDateSTK.text.toString()
+            val dateReminder = binding.etDateReminder.text.toString()
+            val myNote = binding.etCarNote.text.toString()
+            val note = CarNote(1, nazev, spz, dateStk, dateReminder, myNote)
+
+            if (nazev.isNotEmpty() && spz.isNotEmpty() && dateStk.isNotEmpty() && dateReminder.isNotEmpty()){
+                db.insertCarNote(note)
+                finish()
+                Toast.makeText(this, "Vozidlo uloženo", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Snackbar.make(it,"Všechny povinné položky musí být vyplněny!", Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+}

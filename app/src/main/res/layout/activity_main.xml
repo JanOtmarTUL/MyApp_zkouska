@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnVozidla"
+        android:layout_width="279dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="284dp"
+        android:backgroundTint="@color/emise"
+        android:insetBottom="4dp"
+        android:text="Moje vozidla"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:iconTint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSeznamStk"
+        android:layout_width="272dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="84dp"
+        android:backgroundTint="@color/stk"
+        android:text="Seznam stanic STK"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnVozidla" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

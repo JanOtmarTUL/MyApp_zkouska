@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="emise">#019A4C</color>
+    <color name="stk">#eb1c24</color>
+    <color name="pruhledne">#00EB1C24</color>
+    <color name="background">#65EB9A</color>
+</resources>
